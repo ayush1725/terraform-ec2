@@ -49,9 +49,17 @@ resource "aws_security_group" "my_security_group" {
 }
 #ec2 instance
 resource "aws_instance" "my_instance" {
+  count = 2 # meta argument to create multiple instances
+  /*
+  for_each = tomap({
+    "TWS-junoon-automate-micro" = "t2.micro",
+    "TWS-junoon-automate-medium" = "t2.medium"
+  }) # meta argument to create multiple instances with different instance types
+  */
   key_name        = aws_key_pair.key_pair.key_name
   security_groups = [aws_security_group.my_security_group.name]
   instance_type   = var.ec2_instance_type    # "t2.micro" or any other instance type you want to use
+                   # each.value # for_each.value if using for_each
   ami             = var.ec2_ami_id           # Ubuntu Server 24.04 LTS (HVM)
   user_data       = file("install_nginx.sh") # Script to install Nginx and Flask app
 
@@ -61,5 +69,6 @@ resource "aws_instance" "my_instance" {
   }
   tags = {
     Name = "TF-EC2-automate"
+            # each.key # for_each.key if using for_each
   }
 }
