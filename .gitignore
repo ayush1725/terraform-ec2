@@ -1,0 +1,11 @@
+.terraform.lock.hcl
+# Local .terraform directory
+.terraform/
+.terraform.tfstate
+# Backup files  
+*.tfstate.backup
+# Crash log files       
+crash.log
+.tera-key-ec2
+.tera-key
+.terraform/providers/registry.terraform.io/hashicorp/aws/6.0.0-beta3/windows_amd64/terraform-provider-aws_v6.0.0-beta3_x5.exe
