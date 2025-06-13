@@ -1,5 +1,5 @@
 #key pair(login to ec2)
-resource "aws_key_pair" "key_pair" {
+resource "aws_key_pair" "my_key_new" {
   key_name   = "terra-key-ec2"
   public_key = file("terra-key-ec2.pub")
 }
@@ -58,9 +58,9 @@ resource "aws_instance" "my_instance" {
   }) # meta argument to create multiple instances with different instance types
   */
 
-  depends_on = [aws_security_group.my_security_group, aws_key_pair.key_pair]
+  depends_on = [aws_security_group.my_security_group, aws_key_pair.my_key_new]
 
-  key_name        = aws_key_pair.key_pair.key_name
+  key_name        = aws_key_pair.my_key_new.key_name
   security_groups = [aws_security_group.my_security_group.name]
   instance_type   = var.ec2_instance_type # "t2.micro" or any other instance type you want to use
   # each.value # for_each.value if using for_each
@@ -75,4 +75,9 @@ resource "aws_instance" "my_instance" {
     Name = "TF-EC2-automate"
     # each.key # for_each.key if using for_each
   }
+}
+
+resource "aws_instance" "my_new_instance" {
+  ami= "unknown"
+  instance_type = "t2.micro"
 }
